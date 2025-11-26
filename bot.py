@@ -159,9 +159,14 @@ async def clear_stickers(update: Update, context):
     if not update.message:
         return
         
+    chat_type = update.message.chat.type
+    if chat_type != "private":
+        await update.message.reply_text("❌ Очистка только в личном чате!")
+        return
+    
     STICKER_IDS.clear()
     save_stickers()
-    await update.message.reply_text("🗑️ База стикеров очищена!")
+    await update.message.reply_text("🗑 База стикеров очищена!")
 
 async def handle_all_messages(update: Update, context):
     if not update.message:
