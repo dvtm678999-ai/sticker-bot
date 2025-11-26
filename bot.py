@@ -123,6 +123,10 @@ async def add_sticker(update: Update, context):
     if not update.message:
         return
         
+    chat_type = update.message.chat.type
+    if chat_type != "private":
+        return  # В группах не добавляем стикеры
+    
     if update.message.sticker:
         sticker_id = update.message.sticker.file_id
         if sticker_id not in STICKER_IDS:
